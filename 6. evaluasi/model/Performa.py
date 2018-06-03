@@ -146,24 +146,24 @@ class Performa:
 			
 	def cleanContigency(self):
 	
-		print self.total_true['tf_idf']
+		# print self.total_true['tf_idf']
 		self.cleanContigencyValue(self.tp['tf_idf'])
 		self.cleanContigencyValue(self.tn['tf_idf'])		
-		print self.total_false['tf_idf']
+		# print self.total_false['tf_idf']
 		self.cleanContigencyValue(self.fp['tf_idf'])
 		self.cleanContigencyValue(self.fn['tf_idf'])
 
-		print self.total_true['widf']
+		# print self.total_true['widf']
 		self.cleanContigencyValue(self.tp['widf'])
 		self.cleanContigencyValue(self.tn['widf'])		
-		print self.total_false['widf']
+		# print self.total_false['widf']
 		self.cleanContigencyValue(self.fp['widf'])
 		self.cleanContigencyValue(self.fn['widf'])
 
-		print self.total_true['midf']
+		# print self.total_true['midf']
 		self.cleanContigencyValue(self.tp['midf'])
 		self.cleanContigencyValue(self.tn['midf'])		
-		print self.total_false['midf']
+		# print self.total_false['midf']
 		self.cleanContigencyValue(self.fp['midf'])
 		self.cleanContigencyValue(self.fn['midf'])			
 	
@@ -194,7 +194,7 @@ class Performa:
 			del array[3]
 			del array[1]
 			
-		print array
+		# print array
 	
 	def countPerforma(self):	
 		self.countPrecision()	
@@ -204,7 +204,7 @@ class Performa:
 	
 	def countPrecision(self):	
 
-		print 'precision'
+		# print 'precision'
 					
 		self.precision['tf_idf'] = float(sum(self.tp['tf_idf']))/float(sum(self.tp['tf_idf']) + sum(self.fp['tf_idf']))
 		self.precision['widf'] = float(sum(self.tp['widf']))/float(sum(self.tp['widf']) + sum(self.fp['widf']))
@@ -216,7 +216,7 @@ class Performa:
 		
 	def countRecall(self):	
 
-		print 'recall'
+		# print 'recall'
 					
 		self.recall['tf_idf'] = float(sum(self.tp['tf_idf']))/float(sum(self.tp['tf_idf']) + sum(self.fn['tf_idf']))
 		self.recall['widf'] = float(sum(self.tp['widf']))/float(sum(self.tp['widf']) + sum(self.fn['widf']))
@@ -228,19 +228,30 @@ class Performa:
 		
 	def countFmeasure(self):	
 
-		print 'f_measure'
-					
-		self.f_measure['tf_idf'] = float(2*self.precision['tf_idf']*self.recall['tf_idf'])/float(self.precision['tf_idf'] + self.recall['tf_idf'])
-		self.f_measure['widf'] = float(2*self.precision['widf']*self.recall['widf'])/float(self.precision['widf'] + self.recall['widf'])
-		self.f_measure['midf'] = float(2*self.precision['midf']*self.recall['midf'])/float(self.precision['midf'] + self.recall['midf'])
+		# print 'f_measure'
 		
-		print self.f_measure['tf_idf']
-		print self.f_measure['widf']
-		print self.f_measure['midf']
+		try:					
+			self.f_measure['tf_idf'] = float(2*self.precision['tf_idf']*self.recall['tf_idf'])/float(self.precision['tf_idf'] + self.recall['tf_idf'])			
+		except ZeroDivisionError:
+			print 'float division by zero'
+			
+		try:
+			self.f_measure['widf'] = float(2*self.precision['widf']*self.recall['widf'])/float(self.precision['widf'] + self.recall['widf'])	
+		except ZeroDivisionError:
+			print 'float division by zero'
+			
+		try:
+			self.f_measure['midf'] = float(2*self.precision['midf']*self.recall['midf'])/float(self.precision['midf'] + self.recall['midf'])	
+		except ZeroDivisionError:
+			print 'float division by zero'
+		
+		# print self.f_measure['tf_idf']
+		# print self.f_measure['widf']
+		# print self.f_measure['midf']
 		
 	def countAccuracy(self):	
 
-		print 'accuracy'
+		# print 'accuracy'
 			
 		# self.accuracy['tf_idf'] = float(self.total_true['tf_idf'])/float(self.total_true['tf_idf']+self.total_false['tf_idf'])*100
 		# self.accuracy['widf'] = float(self.total_true['widf'])/(self.total_true['widf']+self.total_false['widf'])*100
@@ -254,9 +265,9 @@ class Performa:
 		self.accuracy['widf'] = float(sum(self.tp['widf']) + sum(self.tn['widf']))/float(sum(self.tp['widf']) + sum(self.fp['widf']) + sum(self.fn['widf']) + sum(self.tn['widf']))*100
 		self.accuracy['midf'] = float(sum(self.tp['midf']) + sum(self.tn['midf']))/float(sum(self.tp['midf']) + sum(self.fp['midf']) + sum(self.fn['midf']) + sum(self.tn['midf']))*100
 		
-		print self.accuracy['tf_idf']
-		print self.accuracy['widf']
-		print self.accuracy['midf']
+		# print self.accuracy['tf_idf']
+		# print self.accuracy['widf']
+		# print self.accuracy['midf']
 		
 	def insert(self, cursor, db):
 		sql = self.insertQuery('tf_idf')

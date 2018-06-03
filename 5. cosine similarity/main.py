@@ -56,8 +56,6 @@ for i in range(?, ?):
 
 		v1 = matrix_answer[:,id_answer-1:id_answer]	
 		v2 = matrix_answer_key[:,id_question-1:id_question]	
-		#print v1.shape
-		#print v2.shape
 		
 		#score = cosine_similarity(v1.transpose(), v2.transpose()) * 5
 		

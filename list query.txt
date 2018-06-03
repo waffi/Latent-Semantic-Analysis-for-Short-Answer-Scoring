@@ -19,8 +19,8 @@ SELECT term, sum(tf) FROM term_document_matrix m, document d WHERE m.ID_DOCUMENT
 SELECT `DOMAIN`, COUNT(*) FROM `corpus` GROUP BY DOMAIN
 
 //delete or clean data
-DELETE FROM `term_document_matrix` WHERE term = 'br'
-DELETE FROM `term_document_matrix` WHERE term = 'gt'
+DELETE FROM `term_document_matrix` WHERE term = 'br';
+DELETE FROM `term_document_matrix` WHERE term = 'gt';
 
 5.3
 5.4
