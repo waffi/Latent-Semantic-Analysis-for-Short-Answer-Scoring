@@ -1,0 +1,40 @@
+//jumlah row term document matrix
+SELECT * FROM term_document_matrix m, document d WHERE m.ID_DOCUMENT = d.ID_DOCUMENT AND d.ID_SOURCE = 1
+SELECT COUNT(*) FROM term_document_matrix m, document d WHERE m.ID_DOCUMENT = d.ID_DOCUMENT AND d.ID_SOURCE = 1
+SELECT d.ID_SOURCE, COUNT(*) FROM term_document_matrix m, document d WHERE m.ID_DOCUMENT = d.ID_DOCUMENT GROUP BY d.ID_SOURCE
+
+//jumlah dokumen source tertentu bedasarkan term
+SELECT term, COUNT(*) FROM term_document_matrix m, document d WHERE m.ID_DOCUMENT = d.ID_DOCUMENT AND d.ID_SOURCE = 1 GROUP BY m.TERM
+
+//total dokumen
+SELECT SUM(count) FROM (SELECT term, COUNT(*) as count FROM term_document_matrix m, document d WHERE m.ID_DOCUMENT = d.ID_DOCUMENT AND d.ID_SOURCE = 1 GROUP BY m.TERM) AS temp
+
+//dokumen yang memiliki term tertentu
+SELECT * FROM term_document_matrix m, document d WHERE m.ID_DOCUMENT = d.ID_DOCUMENT AND d.ID_SOURCE = 1 and m.TERM = 'address'
+
+//jumlah tf bedasarkan term
+SELECT term, sum(tf) FROM term_document_matrix m, document d WHERE m.ID_DOCUMENT = d.ID_DOCUMENT AND d.ID_SOURCE = 1 GROUP BY m.TERM
+
+//count document by domain
+SELECT `DOMAIN`, COUNT(*) FROM `corpus` GROUP BY DOMAIN
+
+//delete or clean data
+DELETE FROM `term_document_matrix` WHERE term = 'br'
+DELETE FROM `term_document_matrix` WHERE term = 'gt'
+
+5.3
+5.4
+6.4
+10.7
+12.3
+12.10
+
+q: 87 -> 81
+a: 2442 - > 2280
+
+UPDATE `score_system` SET SCORE_TF_IDF= 0 WHERE SCORE_TF_IDF < 0;
+UPDATE `score_system` SET SCORE_WIDF= 0 WHERE SCORE_WIDF < 0;
+UPDATE `score_system` SET SCORE_MIDF= 0 WHERE SCORE_MIDF < 0;
+
+//sample
+SELECT * FROM `term_document_matrix` tdm, `document` d WHERE tdm.ID_DOCUMENT = d.ID_DOCUMENT AND ((d.ID_SOURCE = 1 AND d.ID_REF <= 1) or (d.ID_SOURCE = 2 AND d.ID_REF <= 1) or (d.ID_SOURCE = 4))
