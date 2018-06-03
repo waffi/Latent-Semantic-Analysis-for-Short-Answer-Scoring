@@ -89,6 +89,12 @@ worksheet = workbook.add_worksheet('answer_key')
 matrixToExcel(worksheet, matrix_answer_key['tf'])
 worksheet = workbook.add_worksheet('answer')
 matrixToExcel(worksheet, matrix_answer['tf'])
+worksheet = workbook.add_worksheet('tf_idf')
+matrixToExcel(worksheet, matrix_answer['tf_idf'])
+worksheet = workbook.add_worksheet('widf')
+matrixToExcel(worksheet, matrix_answer['widf'])
+worksheet = workbook.add_worksheet('midf')
+matrixToExcel(worksheet, matrix_answer['midf'])
 
 workbook = Workbook('svd.xlsx')
 

@@ -261,9 +261,9 @@ class Performa:
 		# print self.accuracy['widf']
 		# print self.accuracy['midf']
 		
-		self.accuracy['tf_idf'] = float(sum(self.tp['tf_idf']) + sum(self.tn['tf_idf']))/float(sum(self.tp['tf_idf']) + sum(self.fp['tf_idf']) + sum(self.fn['tf_idf']) + sum(self.tn['tf_idf']))*100
-		self.accuracy['widf'] = float(sum(self.tp['widf']) + sum(self.tn['widf']))/float(sum(self.tp['widf']) + sum(self.fp['widf']) + sum(self.fn['widf']) + sum(self.tn['widf']))*100
-		self.accuracy['midf'] = float(sum(self.tp['midf']) + sum(self.tn['midf']))/float(sum(self.tp['midf']) + sum(self.fp['midf']) + sum(self.fn['midf']) + sum(self.tn['midf']))*100
+		self.accuracy['tf_idf'] = float(sum(self.tp['tf_idf']) + sum(self.tn['tf_idf']))/float(sum(self.tp['tf_idf']) + sum(self.fp['tf_idf']) + sum(self.fn['tf_idf']) + sum(self.tn['tf_idf']))
+		self.accuracy['widf'] = float(sum(self.tp['widf']) + sum(self.tn['widf']))/float(sum(self.tp['widf']) + sum(self.fp['widf']) + sum(self.fn['widf']) + sum(self.tn['widf']))
+		self.accuracy['midf'] = float(sum(self.tp['midf']) + sum(self.tn['midf']))/float(sum(self.tp['midf']) + sum(self.fp['midf']) + sum(self.fn['midf']) + sum(self.tn['midf']))
 		
 		# print self.accuracy['tf_idf']
 		# print self.accuracy['widf']
