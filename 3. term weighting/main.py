@@ -5,7 +5,7 @@ from model.TermDocument import TermDocument
 from model.TermWeighting import TermWeighting
 
 #1 = question, 2 = answer key, 3 = answer, 4 = answer
-source = 3
+source = ?
 
 #prepare database connection
 db = connect("localhost","root","","db_asas" )

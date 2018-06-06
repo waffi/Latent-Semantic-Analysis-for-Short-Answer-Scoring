@@ -5,7 +5,7 @@ from collections import Counter
 from preprocessing import preprocessing
 
 #1 = question, 2 = answer key, 3 = answer, 4 = sample
-source = 1
+source = ?
 
 #prepare database connection
 db = connect("localhost","root","","db_asas" )

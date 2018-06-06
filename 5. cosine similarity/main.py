@@ -16,7 +16,7 @@ answer_boudary = cursor.fetchall()
 
 print answer_boudary
 
-source = 4
+source = ?
 source_path = 'source/' + str(source) + '/'
 
 #get svd
