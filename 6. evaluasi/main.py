@@ -43,7 +43,7 @@ for i in range(?, ?):
 	id_skenario = i
 	skenario = Skenario(id_skenario)
 
-	workbook = Workbook('skenario_' + str(id_skenario) + '.xlsx')
+	workbook = Workbook('skenario/skenario_' + str(id_skenario) + '.xlsx')
 	worksheet = workbook.add_worksheet()
 
 	sql = skenario.getQuery()

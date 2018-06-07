@@ -37,64 +37,64 @@ class Performa:
 		self.total_false['midf'] = 0
 		
 		self.precision = {}
-		self.precision['tf_idf'] = float(0)
-		self.precision['widf'] = float(0)
-		self.precision['midf'] = float(0)
+		self.precision['tf_idf'] = [float(0), float(0)]
+		self.precision['widf'] = [float(0), float(0)]
+		self.precision['midf'] = [float(0), float(0)]
 		
 		self.recall = {}
-		self.recall['tf_idf'] = float(0)
-		self.recall['widf'] = float(0)
-		self.recall['midf'] = float(0)
+		self.recall['tf_idf'] = [float(0), float(0)]
+		self.recall['widf'] = [float(0), float(0)]
+		self.recall['midf'] = [float(0), float(0)]
 		
 		self.accuracy = {}
-		self.accuracy['tf_idf'] = float(0)
-		self.accuracy['widf'] = float(0)
-		self.accuracy['midf'] = float(0)
+		self.accuracy['tf_idf'] = [float(0), float(0)]
+		self.accuracy['widf'] = [float(0), float(0)]
+		self.accuracy['midf'] = [float(0), float(0)]
 				
 		self.f_measure = {}
-		self.f_measure['tf_idf'] = float(0)
-		self.f_measure['widf'] = float(0)
-		self.f_measure['midf'] = float(0)
+		self.f_measure['tf_idf'] = [float(0), float(0)]
+		self.f_measure['widf'] = [float(0), float(0)]
+		self.f_measure['midf'] = [float(0), float(0)]
 		
 	def checkRelevantScore(self, row):
 	
 		if self.case == 2:
-			self.updateTotalTrueFalse(row, 4)
+			self.updateContingencyTrueFalse(row, 4)
 				
 		if self.case == 3:
-			self.updateTotalTrueFalse(row, 8)
+			self.updateContingencyTrueFalse(row, 8)
 				
 		if self.case == 6:
-			self.updateTotalTrueFalse(row, 12)
+			self.updateContingencyTrueFalse(row, 12)
 				
 		if self.case == 11:
-			self.updateTotalTrueFalse(row, 16)
+			self.updateContingencyTrueFalse(row, 16)
 	
-	def updateTotalTrueFalse(self, row, index):
+	def updateContingencyTrueFalse(self, row, index):
 	
 		#true
 		if row[index] == row[index+1]:
 			self.total_true['tf_idf'] += 1
-			self.updateContingency(self.tp['tf_idf'], self.tn['tf_idf'], row[index+1])
+			self.tp['tf_idf'], self.tn['tf_idf'] = self.updateContingencyPositiveNegative(self.tp['tf_idf'], self.tn['tf_idf'], row[index+1])
 		if row[index] == row[index+2]:
 			self.total_true['widf'] += 1
-			self.updateContingency(self.tp['widf'], self.tn['widf'], row[index+2])
+			self.updateContingencyPositiveNegative(self.tp['widf'], self.tn['widf'], row[index+2])
 		if row[index] == row[index+3]:
 			self.total_true['midf'] += 1
-			self.updateContingency(self.tp['midf'], self.tn['midf'], row[index+3])
+			self.updateContingencyPositiveNegative(self.tp['midf'], self.tn['midf'], row[index+3])
 		
 		#false	
 		if row[index] != row[index+1]:
 			self.total_false['tf_idf'] += 1
-			self.updateContingency(self.fp['tf_idf'], self.fn['tf_idf'], row[index+1])			
+			self.updateContingencyPositiveNegative(self.fp['tf_idf'], self.fn['tf_idf'], row[index+1])
 		if row[index] != row[index+2]:
 			self.total_false['widf'] += 1
-			self.updateContingency(self.fp['widf'], self.fn['widf'], row[index+2])			
+			self.updateContingencyPositiveNegative(self.fp['widf'], self.fn['widf'], row[index+2])	
 		if row[index] != row[index+3]:
 			self.total_false['midf'] += 1
-			self.updateContingency(self.fp['midf'], self.fn['midf'], row[index+3])
+			self.updateContingencyPositiveNegative(self.fp['midf'], self.fn['midf'], row[index+3])
 		
-	def updateContingency(self, positive,  negative, score):
+	def updateContingencyPositiveNegative(self, positive,  negative, score):
 				
 		#positive
 		if score == 0:#case 6, 3, 2
@@ -144,8 +144,9 @@ class Performa:
 		if score != 5:#case 6, 3, 2
 			negative[10] += 1
 			
+		return positive, negative
+			
 	def cleanContigency(self):
-	
 		# print self.total_true['tf_idf']
 		self.cleanContigencyValue(self.tp['tf_idf'])
 		self.cleanContigencyValue(self.tn['tf_idf'])		
@@ -204,86 +205,143 @@ class Performa:
 	
 	def countPrecision(self):	
 
-		# print 'precision'
+		#micro
 					
-		self.precision['tf_idf'] = float(sum(self.tp['tf_idf']))/float(sum(self.tp['tf_idf']) + sum(self.fp['tf_idf']))
-		self.precision['widf'] = float(sum(self.tp['widf']))/float(sum(self.tp['widf']) + sum(self.fp['widf']))
-		self.precision['midf'] = float(sum(self.tp['midf']))/float(sum(self.tp['midf']) + sum(self.fp['midf']))
+		self.precision['tf_idf'][0] = float(sum(self.tp['tf_idf']))/float(sum(self.tp['tf_idf']) + sum(self.fp['tf_idf']))
+		self.precision['widf'][0] = float(sum(self.tp['widf']))/float(sum(self.tp['widf']) + sum(self.fp['widf']))
+		self.precision['midf'][0] = float(sum(self.tp['midf']))/float(sum(self.tp['midf']) + sum(self.fp['midf']))
 		
-		# print self.precision['tf_idf']
-		# print self.precision['widf']
-		# print self.precision['midf']
+		#macro
 		
+		for i in range(0, self.case):
+			try:	
+				self.precision['tf_idf'][1] += float(self.tp['tf_idf'][i])/float(self.tp['tf_idf'][i] + self.fp['tf_idf'][i])		
+			except ZeroDivisionError:
+				pass
+				
+			try:
+				self.precision['widf'][1] += float(self.tp['widf'][i])/float(self.tp['widf'][i] + self.fp['widf'][i])		
+			except ZeroDivisionError:
+				pass
+				
+			try:
+				self.precision['midf'][1] += float(self.tp['midf'][i])/float(self.tp['midf'][i] + self.fp['midf'][i])		
+			except ZeroDivisionError:
+				pass
+			
+		self.precision['tf_idf'][1] = float(self.precision['tf_idf'][1])/float(self.case)
+		self.precision['widf'][1] = float(self.precision['widf'][1])/float(self.case)
+		self.precision['midf'][1] = float(self.precision['midf'][1])/float(self.case)
+					
 	def countRecall(self):	
 
-		# print 'recall'
-					
-		self.recall['tf_idf'] = float(sum(self.tp['tf_idf']))/float(sum(self.tp['tf_idf']) + sum(self.fn['tf_idf']))
-		self.recall['widf'] = float(sum(self.tp['widf']))/float(sum(self.tp['widf']) + sum(self.fn['widf']))
-		self.recall['midf'] = float(sum(self.tp['midf']))/float(sum(self.tp['midf']) + sum(self.fn['midf']))
+		#micro				
 		
-		# print self.recall['tf_idf']
-		# print self.recall['widf']
-		# print self.recall['midf']
+		self.recall['tf_idf'][0] = float(sum(self.tp['tf_idf']))/float(sum(self.tp['tf_idf']) + sum(self.fn['tf_idf']))
+		self.recall['widf'][0] = float(sum(self.tp['widf']))/float(sum(self.tp['widf']) + sum(self.fn['widf']))
+		self.recall['midf'][0] = float(sum(self.tp['midf']))/float(sum(self.tp['midf']) + sum(self.fn['midf']))
+		
+		#macro
+		
+		for i in range(0, self.case):	
+			try:
+				self.recall['tf_idf'][1] += float(self.tp['tf_idf'][i])/float(self.tp['tf_idf'][i] + self.fn['tf_idf'][i])		
+			except ZeroDivisionError:
+				pass
+				
+			try:
+				self.recall['widf'][1] += float(self.tp['widf'][i])/float(self.tp['widf'][i] + self.fn['widf'][i])		
+			except ZeroDivisionError:
+				pass
+				
+			try:
+				self.recall['midf'][1] += float(self.tp['midf'][i])/float(self.tp['midf'][i] + self.fn['midf'][i])		
+			except ZeroDivisionError:
+				pass
+		
+		self.recall['tf_idf'][1] = float(self.recall['tf_idf'][1])/float(self.case)
+		self.recall['widf'][1] = float(self.recall['widf'][1])/float(self.case)
+		self.recall['midf'][1] = float(self.recall['midf'][1])/float(self.case)
 		
 	def countFmeasure(self):	
 
-		# print 'f_measure'
-		
-		try:					
-			self.f_measure['tf_idf'] = float(2*self.precision['tf_idf']*self.recall['tf_idf'])/float(self.precision['tf_idf'] + self.recall['tf_idf'])			
-		except ZeroDivisionError:
-			print 'float division by zero'
-			
-		try:
-			self.f_measure['widf'] = float(2*self.precision['widf']*self.recall['widf'])/float(self.precision['widf'] + self.recall['widf'])	
-		except ZeroDivisionError:
-			print 'float division by zero'
-			
-		try:
-			self.f_measure['midf'] = float(2*self.precision['midf']*self.recall['midf'])/float(self.precision['midf'] + self.recall['midf'])	
-		except ZeroDivisionError:
-			print 'float division by zero'
-		
-		# print self.f_measure['tf_idf']
-		# print self.f_measure['widf']
-		# print self.f_measure['midf']
+		for i in range(0,2):		
+			try:					
+				self.f_measure['tf_idf'][i] = float(2*self.precision['tf_idf'][i]*self.recall['tf_idf'][i])/float(self.precision['tf_idf'][i] + self.recall['tf_idf'][i])			
+			except ZeroDivisionError:
+				pass
+				
+			try:
+				self.f_measure['widf'][i] = float(2*self.precision['widf'][i]*self.recall['widf'][i])/float(self.precision['widf'][i] + self.recall['widf'][i])	
+			except ZeroDivisionError:
+				pass
+				
+			try:
+				self.f_measure['midf'][i] = float(2*self.precision['midf'][i]*self.recall['midf'][i])/float(self.precision['midf'][i] + self.recall['midf'][i])	
+			except ZeroDivisionError:
+				pass
 		
 	def countAccuracy(self):	
 
-		# print 'accuracy'
-			
-		# self.accuracy['tf_idf'] = float(self.total_true['tf_idf'])/float(self.total_true['tf_idf']+self.total_false['tf_idf'])*100
-		# self.accuracy['widf'] = float(self.total_true['widf'])/(self.total_true['widf']+self.total_false['widf'])*100
-		# self.accuracy['midf'] = float(self.total_true['midf'])/(self.total_true['midf']+self.total_false['midf'])*100
+		#micro		
 		
-		# print self.accuracy['tf_idf']
-		# print self.accuracy['widf']
-		# print self.accuracy['midf']
+		self.accuracy['tf_idf'][0] = float(sum(self.tp['tf_idf']) + sum(self.tn['tf_idf']))/float(sum(self.tp['tf_idf']) + sum(self.fp['tf_idf']) + sum(self.fn['tf_idf']) + sum(self.tn['tf_idf']))
+		self.accuracy['widf'][0] = float(sum(self.tp['widf']) + sum(self.tn['widf']))/float(sum(self.tp['widf']) + sum(self.fp['widf']) + sum(self.fn['widf']) + sum(self.tn['widf']))
+		self.accuracy['midf'][0] = float(sum(self.tp['midf']) + sum(self.tn['midf']))/float(sum(self.tp['midf']) + sum(self.fp['midf']) + sum(self.fn['midf']) + sum(self.tn['midf']))
 		
-		self.accuracy['tf_idf'] = float(sum(self.tp['tf_idf']) + sum(self.tn['tf_idf']))/float(sum(self.tp['tf_idf']) + sum(self.fp['tf_idf']) + sum(self.fn['tf_idf']) + sum(self.tn['tf_idf']))
-		self.accuracy['widf'] = float(sum(self.tp['widf']) + sum(self.tn['widf']))/float(sum(self.tp['widf']) + sum(self.fp['widf']) + sum(self.fn['widf']) + sum(self.tn['widf']))
-		self.accuracy['midf'] = float(sum(self.tp['midf']) + sum(self.tn['midf']))/float(sum(self.tp['midf']) + sum(self.fp['midf']) + sum(self.fn['midf']) + sum(self.tn['midf']))
+		#macro
 		
-		# print self.accuracy['tf_idf']
-		# print self.accuracy['widf']
-		# print self.accuracy['midf']
+		for i in range(0, self.case):		
+			try:
+				self.accuracy['tf_idf'][1] += float(self.tp['tf_idf'][i] + self.tn['tf_idf'][i])/float(self.tp['tf_idf'][i] + self.fp['tf_idf'][i] + self.fn['tf_idf'][i] + self.tn['tf_idf'][i])		
+			except ZeroDivisionError:
+				pass
+				
+			try:
+				self.accuracy['widf'][1] += float(self.tp['widf'][i] + self.tn['widf'][i])/float(self.tp['widf'][i] + self.fp['widf'][i] + self.fn['widf'][i] + self.tn['widf'][i])		
+			except ZeroDivisionError:
+				pass
+				
+			try:
+				self.accuracy['midf'][1] += float(self.tp['midf'][i] + self.tn['midf'][i])/float(self.tp['midf'][i] + self.fp['midf'][i] + self.fn['midf'][i] + self.tn['midf'][i])		
+			except ZeroDivisionError:
+				pass
+		
+		self.accuracy['tf_idf'][1] = float(self.accuracy['tf_idf'][1])/float(self.case)
+		self.accuracy['widf'][1] = float(self.accuracy['widf'][1])/float(self.case)
+		self.accuracy['midf'][1] = float(self.accuracy['midf'][1])/float(self.case)
 		
 	def insert(self, cursor, db):
-		sql = self.insertQuery('tf_idf')
+		sql = self.insertQuery('micro', 'tf_idf')
 		cursor.execute(sql)
 		db.commit()
 		
-		sql = self.insertQuery('widf')
+		sql = self.insertQuery('micro', 'widf')
 		cursor.execute(sql)
 		db.commit()
 		
-		sql = self.insertQuery('midf')
+		sql = self.insertQuery('micro', 'midf')
 		cursor.execute(sql)
 		db.commit()
 		
-	def insertQuery(self, term_weighting):
-		sql = "INSERT INTO `performa`(`ID_SCENARIO`, `ROUNDING_TYPE`, `TERM_WEIGHTING`, `PRECISION`, `RECALL`, `ACCURACY`, `F_MEASURE`) VALUES (%d,%d,'%s',%f,%f,%f,%f)" %(self.id_skenario, self.case, term_weighting, self.precision[term_weighting], self.recall[term_weighting], self.accuracy[term_weighting], self.f_measure[term_weighting])
+		sql = self.insertQuery('macro', 'tf_idf')
+		cursor.execute(sql)
+		db.commit()
 		
-		return sql
+		sql = self.insertQuery('macro', 'widf')
+		cursor.execute(sql)
+		db.commit()
+		
+		sql = self.insertQuery('macro', 'midf')
+		cursor.execute(sql)
+		db.commit()
+		
+	def insertQuery(self, average_type, term_weighting):
+		if average_type == 'micro':
+			index = 0
+		if average_type == 'macro':
+			index = 1
 	
+		sql = "INSERT INTO `performa`(`ID_SCENARIO`, `AVERAGE_TYPE`, `ROUNDING_TYPE`, `TERM_WEIGHTING`, `PRECISION`, `RECALL`, `ACCURACY`, `F_MEASURE`) VALUES (%d,'%s',%d,'%s',%f,%f,%f,%f)" %(self.id_skenario, average_type, self.case, term_weighting, self.precision[term_weighting][index], self.recall[term_weighting][index], self.accuracy[term_weighting][index], self.f_measure[term_weighting][index])
+		
+		return sql	
