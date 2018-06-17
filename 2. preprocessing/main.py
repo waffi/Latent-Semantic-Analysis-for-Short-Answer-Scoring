@@ -39,12 +39,12 @@ for document in document_list:
 		mydoc = minidom.parse(document[1])
 		words = mydoc.getElementsByTagName("w")
 		for word in words:
-			w = word.firstChild.data
-			w = w.strip().encode('utf-8').decode('latin1')
 			try:
+				w = word.firstChild.data
+				w = w.strip().encode('utf-8').decode('latin1')
 				w = str(w)
 				text += w + ' '
-			except UnicodeEncodeError:
+			except (UnicodeEncodeError, AttributeError) as error:
 				pass
 		
 	print "id = %d text = %s" %(id, text)
