@@ -100,12 +100,7 @@ for i in range(?, ?):
 	mae_tf_idf = mae_tf_idf/count
 	mae_widf = mae_widf/count
 	mae_midf = mae_midf/count
-
-	#count korelasi
-	korelasi_tf_idf = pearsonr(x, y_tf_idf)[0]
-	korelasi_widf = pearsonr(x, y_widf)[0]
-	korelasi_midf = pearsonr(x, y_midf)[0]
-
+	
 	#count performa
 	performa_2.countPerforma()
 	performa_3.countPerforma()
@@ -114,18 +109,6 @@ for i in range(?, ?):
 		
 	#insert mae
 	sql = "INSERT INTO `mae`(`ID_SCENARIO`, `TF_IDF`, `WIDF`, `MIDF`) VALUES (%d,%f,%f,%f)" %(id_skenario, mae_tf_idf, mae_widf, mae_midf)
-	cursor.execute(sql)
-	db.commit()
-	
-	if isnan(korelasi_tf_idf):
-		korelasi_tf_idf = 0
-	if isnan(korelasi_widf):
-		korelasi_widf = 0
-	if isnan(korelasi_midf):
-		korelasi_midf = 0
-	
-	#insert pearson
-	sql = "INSERT INTO `pearson`(`ID_SCENARIO`, `TF_IDF`, `WIDF`, `MIDF`) VALUES (%d,%f,%f,%f)" %(id_skenario, korelasi_tf_idf, korelasi_widf, korelasi_midf)
 	cursor.execute(sql)
 	db.commit()
 	
