@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from math import pow
+from math import pow, isnan
 from MySQLdb import connect
 from xlsxwriter import Workbook
 from scipy.stats import pearsonr
@@ -116,6 +116,13 @@ for i in range(?, ?):
 	sql = "INSERT INTO `mae`(`ID_SCENARIO`, `TF_IDF`, `WIDF`, `MIDF`) VALUES (%d,%f,%f,%f)" %(id_skenario, mae_tf_idf, mae_widf, mae_midf)
 	cursor.execute(sql)
 	db.commit()
+	
+	if isnan(korelasi_tf_idf):
+		korelasi_tf_idf = 0
+	if isnan(korelasi_widf):
+		korelasi_widf = 0
+	if isnan(korelasi_midf):
+		korelasi_midf = 0
 	
 	#insert pearson
 	sql = "INSERT INTO `pearson`(`ID_SCENARIO`, `TF_IDF`, `WIDF`, `MIDF`) VALUES (%d,%f,%f,%f)" %(id_skenario, korelasi_tf_idf, korelasi_widf, korelasi_midf)
