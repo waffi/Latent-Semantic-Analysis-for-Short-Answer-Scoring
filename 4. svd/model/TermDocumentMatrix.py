@@ -14,12 +14,14 @@ class TermDocumentMatrix:
 		for row in self.term_document_matrix:
 			
 			td = TermDocument(row)
+			source = row[9]
 			
 			if td.term in self.term_dictionary:
 				self.term_dictionary[td.term].append(td)	
 			else:
-				self.term_dictionary[td.term] = []
-				self.term_dictionary[td.term].append(td)
+				if source != 5:
+					self.term_dictionary[td.term] = []
+					self.term_dictionary[td.term].append(td)
 		
 	def createTermList(self):
 		self.term_list = [term for term in self.term_dictionary.keys()] 
@@ -74,5 +76,15 @@ class TermDocumentMatrix:
 		matrix['tf_idf'] =  self.matrix['tf_idf'][:,162:2442]
 		matrix['widf'] =  self.matrix['widf'][:,162:2442]
 		matrix['midf'] =  self.matrix['midf'][:,162:2442]
+		
+		return matrix
+		
+	def getMatrixCorpus(self):
+		matrix = {}
+		matrix['tf'] =  self.matrix['tf'][:,2471:2985]
+		matrix['idf'] =  self.matrix['idf'][:,2471:2985]
+		matrix['tf_idf'] =  self.matrix['tf_idf'][:,2471:2985]
+		matrix['widf'] =  self.matrix['widf'][:,2471:2985]
+		matrix['midf'] =  self.matrix['midf'][:,2471:2985]
 		
 		return matrix

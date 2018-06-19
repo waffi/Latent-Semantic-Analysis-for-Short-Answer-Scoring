@@ -62,23 +62,23 @@ svd_tf_idf.generateSVD(matrix['tf_idf'])
 svd_widf.generateSVD(matrix['widf'])
 svd_midf.generateSVD(matrix['midf'])
 
-save(str(source)+'.svd.tf_idf.u.npy',svd_tf_idf.U)
-save(str(source)+'.svd.tf_idf.s.npy',svd_tf_idf.S)
-save(str(source)+'.svd.tf_idf.vt.npy',svd_tf_idf.Vt)
+save('result/'+str(source)+'.svd.tf_idf.u.npy',svd_tf_idf.U)
+save('result/'+str(source)+'.svd.tf_idf.s.npy',svd_tf_idf.S)
+save('result/'+str(source)+'.svd.tf_idf.vt.npy',svd_tf_idf.Vt)
 
-save(str(source)+'.svd.widf.u.npy',svd_widf.U)
-save(str(source)+'.svd.widf.s.npy',svd_widf.S)
-save(str(source)+'.svd.widf.vt.npy',svd_widf.Vt)
+save('result/'+str(source)+'.svd.widf.u.npy',svd_widf.U)
+save('result/'+str(source)+'.svd.widf.s.npy',svd_widf.S)
+save('result/'+str(source)+'.svd.widf.vt.npy',svd_widf.Vt)
 
-save(str(source)+'.svd.midf.u.npy',svd_midf.U)
-save(str(source)+'.svd.midf.s.npy',svd_midf.S)
-save(str(source)+'.svd.midf.vt.npy',svd_midf.Vt)
+save('result/'+str(source)+'.svd.midf.u.npy',svd_midf.U)
+save('result/'+str(source)+'.svd.midf.s.npy',svd_midf.S)
+save('result/'+str(source)+'.svd.midf.vt.npy',svd_midf.Vt)
 
-save('matrix.question.npy',matrix_question['tf'])
-save('matrix.answer_key.npy',matrix_answer_key['tf'])
-save('matrix.answer.npy',matrix_answer['tf'])
+save('result/'+'matrix.question.npy',matrix_question['tf'])
+save('result/'+'matrix.answer_key.npy',matrix_answer_key['tf'])
+save('result/'+'matrix.answer.npy',matrix_answer['tf'])
 
-save('term_list.npy',tdm.term_list)
+save('result/'+'term_list.npy',tdm.term_list)
 
 #write matrix
 workbook = Workbook('term weighting.xlsx')
