@@ -1,9 +1,7 @@
 #!/usr/bin/python
 
-from math import pow, isnan
 from MySQLdb import connect
 from xlsxwriter import Workbook
-from scipy.stats import pearsonr
 from model.Skenario import Skenario
 from model.Performa import Performa
 
