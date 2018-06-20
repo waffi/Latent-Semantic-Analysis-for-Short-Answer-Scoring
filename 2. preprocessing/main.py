@@ -5,7 +5,7 @@ from xml.dom import minidom
 from collections import Counter
 from preprocessing import preprocessing
 
-#1 = question, 2 = answer key, 3 = answer, 4 = sample, 5 = corpus
+#1 = question, 2 = answer key, 3 = answer, 4 = testing, 5 = corpus
 source = ?
 
 #prepare database connection

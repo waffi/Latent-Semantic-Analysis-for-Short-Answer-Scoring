@@ -16,6 +16,7 @@ answer_boudary = cursor.fetchall()
 
 print answer_boudary
 
+#1 = question, 2 = answer key, 3 = answer, 4 = testing, 5 = corpus
 source = ?
 source_path = 'source/' + str(source) + '/'
 

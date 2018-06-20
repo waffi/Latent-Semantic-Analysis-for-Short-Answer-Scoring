@@ -16,7 +16,7 @@ def matrixToExcel(worksheet, matrix):
 			count_doc += 1	
 		count += 1
 
-#1 = question, 2 = answer key, 3 = answer, 4 = sample
+#1 = question, 2 = answer key, 3 = answer, 4 = testing, 5 = corpus
 source = 4
 
 #prepare database connection

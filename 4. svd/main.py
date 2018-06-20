@@ -5,7 +5,7 @@ from MySQLdb import connect
 from model.TermDocumentMatrix import TermDocumentMatrix
 from model.SingularValueDecomposition import SingularValueDecomposition
 
-#1 = question, 2 = answer key, 3 = answer, 4 = sample, 5 = corpus
+#1 = question, 2 = answer key, 3 = answer, 4 = testing, 5 = corpus
 source = ?
 
 #prepare database connection
