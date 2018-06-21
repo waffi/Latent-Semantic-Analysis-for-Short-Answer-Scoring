@@ -22,7 +22,7 @@ documemt_list = cursor.fetchall()
 
 tdm = TermDocumentMatrix(term_document_matrix, documemt_list)
 
-#create document list containing term
+#create document list containing term [createListDocumentEachTerm()]
 tdm.createTermDictionary()
 print tdm.term_dictionary['address'][0].term
 		

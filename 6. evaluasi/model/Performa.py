@@ -56,7 +56,7 @@ class Performa:
 		self.f_measure['widf'] = [float(0), float(0)]
 		self.f_measure['midf'] = [float(0), float(0)]
 		
-	def checkRelevantScore(self, row):
+	def updateContigency(self, row):
 	
 		if self.case == 2:
 			self.updateContingencyTrueFalse(row, 4)

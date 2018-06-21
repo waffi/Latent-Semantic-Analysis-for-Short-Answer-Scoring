@@ -53,12 +53,6 @@ for i in range(?, ?):
 	mae_widf = 0
 	mae_midf = 0
 
-	#init korelasi
-	x = []
-	y_tf_idf = []
-	y_widf = []
-	y_midf = []
-
 	#init akurasi
 	performa_2 = Performa(id_skenario, 2)
 	performa_3 = Performa(id_skenario, 3)
@@ -75,17 +69,11 @@ for i in range(?, ?):
 		mae_widf += abs(row[0]-row[2])
 		mae_midf += abs(row[0]-row[3])
 		
-		#prepare korelasi
-		x.append(row[0])
-		y_tf_idf.append(row[1])
-		y_widf.append(row[2])
-		y_midf.append(row[3])
-		
 		#prepare performa
-		performa_2.checkRelevantScore(row)
-		performa_3.checkRelevantScore(row)
-		performa_6.checkRelevantScore(row)
-		performa_11.checkRelevantScore(row)
+		performa_2.updateContigency(row)
+		performa_3.updateContigency(row)
+		performa_6.updateContigency(row)
+		performa_11.updateContigency(row)
 		
 		count += 1
 		

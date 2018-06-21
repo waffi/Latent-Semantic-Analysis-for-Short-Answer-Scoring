@@ -43,9 +43,9 @@ for i in range(?, ?):
 	id_skenario = i
 	k_dimension = ?
 
-	svd_tf_idf.getReductionSVD(k_dimension)
-	svd_widf.getReductionSVD(k_dimension)
-	svd_midf.getReductionSVD(k_dimension)
+	svd_tf_idf.setReductionSVD(k_dimension)
+	svd_widf.setReductionSVD(k_dimension)
+	svd_midf.setReductionSVD(k_dimension)
 
 	sql = "INSERT INTO `scenario`(`ID_SCENARIO`,`ID_SOURCE`, `K_DIMENSION`) VALUES (%d,%d,%d)" %(id_skenario, source, k_dimension)
 	cursor.execute(sql)

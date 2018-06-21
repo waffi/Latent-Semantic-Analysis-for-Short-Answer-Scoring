@@ -14,7 +14,7 @@ class SingularValueDecomposition:
 		self.S = S
 		self.Vt = Vt
 	
-	def getReductionSVD(self, k):
+	def setReductionSVD(self, k):
 		self.Uk = self.U[:,0:k]
 		self.Sk = self.S[0:k,0:k]
 		self.Vtk = self.Vt[0:k,]

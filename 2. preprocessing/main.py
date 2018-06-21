@@ -12,7 +12,7 @@ source = ?
 db = connect("localhost","root","","db_asas" )
 cursor = db.cursor()
 
-#list document
+#list document [getDocumentList(sourceID)]
 if source == 1 or source == 2:
 	sql = "SELECT * FROM question" 
 if source == 3:
@@ -26,7 +26,7 @@ document_list = cursor.fetchall()
 
 for document in document_list:
 
-	#fetched result
+	#fetched result [getDocumentText(document)]
 	id = document[0]
 	if source == 1 or source == 3 or source == 4:
 		text = document[2]
@@ -49,19 +49,20 @@ for document in document_list:
 		
 	print "id = %d text = %s" %(id, text)
 	
-	#insert document
+	#insert document [insertDocument(sourceID, documentID)]
 	sql = "INSERT INTO `document`(`ID_SOURCE`, `ID_REF`) VALUES (%d, %d)" %(source, id)
 	cursor.execute(sql)
 	db.commit()
 	
+	#new document id
 	id_document = cursor.lastrowid
 	
-	#result preprocessing + count term
+	#result [preprocessing(text)] + count term [countEachTerm(termList)]
 	term_list = preprocessing(text)
 	term_list = Counter(term_list)
 	#print term_list
 	
-	#insert term document matrix
+	#insert term document matrix [insertTermDocumentMatrix(newDocumentID, term, count)]
 	for term in term_list:
 		sql = "INSERT INTO `term_document_matrix`(`ID_DOCUMENT`, `TERM`, `TF`) VALUES (%d, '%s', %d)" %(id_document, term, term_list[term])
 		cursor.execute(sql)

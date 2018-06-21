@@ -13,31 +13,34 @@ cursor = db.cursor()
 
 tw = TermWeighting()
 
-#set total document
+#get total document [getTotalDocument(sourceID)]
 sql = "SELECT COUNT(*) FROM document d WHERE d.ID_SOURCE = %d" %(source)
 cursor.execute(sql)
 total_document = cursor.fetchone()[0]
 
+#[setTotalDocument(totalDocument)]
 tw.setTotalDocument(total_document)
 print 'total_document: ' + str(total_document)
 
-#set count documents containing terms
+#get count documents each terms [countDocumentEachTerm(sourceID)]
 sql = "SELECT term, COUNT(*) FROM term_document_matrix m, document d WHERE m.ID_DOCUMENT = d.ID_DOCUMENT AND d.ID_SOURCE = %d GROUP BY m.TERM" %(source)
 cursor.execute(sql)
 term_list = cursor.fetchall()
 		
+#[setCountDocumentDictionary(termList)]
 tw.setCountDocumentDictionary(term_list)
 #print tw.count_document_dictionary['approach']
 	
-#get sum term frequency each term
+#get sum term frequency each term [getSumTermFrequencyEachTerm(sourceID)]
 sql = "SELECT term, sum(tf) FROM term_document_matrix m, document d WHERE m.ID_DOCUMENT = d.ID_DOCUMENT AND d.ID_SOURCE = %d GROUP BY m.TERM" %(source)
 cursor.execute(sql)
 sum_tf_list = cursor.fetchall()
 		
+#[setSumTermFrequencyDictionary(sumTfList)]
 tw.setSumTfDictionary(sum_tf_list)
 #print tw.sum_tf_dictionary['approach']
 	
-#get term document matrix
+#get term document matrix [getTermDocumentMatrix(sourceID)]
 sql = "SELECT * FROM term_document_matrix m, document d WHERE m.ID_DOCUMENT = d.ID_DOCUMENT AND d.ID_SOURCE = %d" %(source)
 cursor.execute(sql)
 term_document_matrix = cursor.fetchall()
