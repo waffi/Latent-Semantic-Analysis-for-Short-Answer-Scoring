@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
+from math import pow, isnan
 from MySQLdb import connect
 from xlsxwriter import Workbook
+from scipy.stats import pearsonr
 from model.Skenario import Skenario
 from model.Performa import Performa
 
@@ -53,6 +55,12 @@ for i in range(?, ?):
 	mae_widf = 0
 	mae_midf = 0
 
+	#init korelasi
+	x = []
+	y_tf_idf = []
+	y_widf = []
+	y_midf = []
+
 	#init akurasi
 	performa_2 = Performa(id_skenario, 2)
 	performa_3 = Performa(id_skenario, 3)
@@ -68,6 +76,12 @@ for i in range(?, ?):
 		mae_tf_idf += abs(row[0]-row[1])
 		mae_widf += abs(row[0]-row[2])
 		mae_midf += abs(row[0]-row[3])
+				
+		#prepare korelasi
+		x.append(row[0])
+		y_tf_idf.append(row[1])
+		y_widf.append(row[2])
+		y_midf.append(row[3])
 		
 		#prepare performa
 		performa_2.updateContigency(row)
@@ -87,6 +101,11 @@ for i in range(?, ?):
 	mae_widf = mae_widf/count
 	mae_midf = mae_midf/count
 	
+	#count korelasi
+	korelasi_tf_idf = pearsonr(x, y_tf_idf)[0]
+	korelasi_widf = pearsonr(x, y_widf)[0]
+	korelasi_midf = pearsonr(x, y_midf)[0]
+	
 	#count performa
 	performa_2.countPerforma()
 	performa_3.countPerforma()
@@ -95,6 +114,18 @@ for i in range(?, ?):
 		
 	#insert mae
 	sql = "INSERT INTO `mae`(`ID_SCENARIO`, `TF_IDF`, `WIDF`, `MIDF`) VALUES (%d,%f,%f,%f)" %(id_skenario, mae_tf_idf, mae_widf, mae_midf)
+	cursor.execute(sql)
+	db.commit()
+	
+	if isnan(korelasi_tf_idf):
+		korelasi_tf_idf = 0
+	if isnan(korelasi_widf):
+		korelasi_widf = 0
+	if isnan(korelasi_midf):
+		korelasi_midf = 0
+	
+	#insert pearson
+	sql = "INSERT INTO `pearson`(`ID_SCENARIO`, `TF_IDF`, `WIDF`, `MIDF`) VALUES (%d,%f,%f,%f)" %(id_skenario, korelasi_tf_idf, korelasi_widf, korelasi_midf)
 	cursor.execute(sql)
 	db.commit()
 	
