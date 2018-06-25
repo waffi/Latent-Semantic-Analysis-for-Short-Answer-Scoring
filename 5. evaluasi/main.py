@@ -39,12 +39,12 @@ def worksheetWrite(worksheet, count, row):
 db = connect("localhost","root","","db_asas" )
 cursor = db.cursor()
 
-for i in range(?, ?):
+for i in range(101, 141):
 	id_skenario = i
 	skenario = Skenario(id_skenario)
 
-	workbook = Workbook('skenario/skenario_' + str(id_skenario) + '.xlsx')
-	worksheet = workbook.add_worksheet()
+	# workbook = Workbook('skenario/skenario_' + str(id_skenario) + '.xlsx')
+	# worksheet = workbook.add_worksheet()
 
 	sql = skenario.getQuery()
 	cursor.execute(sql)
@@ -62,15 +62,15 @@ for i in range(?, ?):
 	y_midf = []
 
 	#init akurasi
-	performa_2 = Performa(id_skenario, 2)
-	performa_3 = Performa(id_skenario, 3)
-	performa_6 = Performa(id_skenario, 6)
-	performa_11 = Performa(id_skenario, 11)
+	# performa_2 = Performa(id_skenario, 2)
+	# performa_3 = Performa(id_skenario, 3)
+	# performa_6 = Performa(id_skenario, 6)
+	# performa_11 = Performa(id_skenario, 11)
 
 	count = 0
 	for row in score_list:
 		
-		worksheetWrite(worksheet, count, row)
+		# worksheetWrite(worksheet, count, row)
 		
 		#prepare mae
 		mae_tf_idf += abs(row[0]-row[1])
@@ -84,17 +84,17 @@ for i in range(?, ?):
 		y_midf.append(row[3])
 		
 		#prepare performa
-		performa_2.updateContigency(row)
-		performa_3.updateContigency(row)
-		performa_6.updateContigency(row)
-		performa_11.updateContigency(row)
+		# performa_2.updateContigency(row)
+		# performa_3.updateContigency(row)
+		# performa_6.updateContigency(row)
+		# performa_11.updateContigency(row)
 		
 		count += 1
 		
-	performa_2.cleanContigency()
-	performa_3.cleanContigency()
-	performa_6.cleanContigency()
-	performa_11.cleanContigency()
+	# performa_2.cleanContigency()
+	# performa_3.cleanContigency()
+	# performa_6.cleanContigency()
+	# performa_11.cleanContigency()
 	
 	#count mae
 	mae_tf_idf = mae_tf_idf/count
@@ -107,10 +107,10 @@ for i in range(?, ?):
 	korelasi_midf = pearsonr(x, y_midf)[0]
 	
 	#count performa
-	performa_2.countPerforma()
-	performa_3.countPerforma()
-	performa_6.countPerforma()
-	performa_11.countPerforma()
+	# performa_2.countPerforma()
+	# performa_3.countPerforma()
+	# performa_6.countPerforma()
+	# performa_11.countPerforma()
 		
 	#insert mae
 	sql = "INSERT INTO `mae`(`ID_SCENARIO`, `TF_IDF`, `WIDF`, `MIDF`) VALUES (%d,%f,%f,%f)" %(id_skenario, mae_tf_idf, mae_widf, mae_midf)
@@ -130,12 +130,12 @@ for i in range(?, ?):
 	db.commit()
 	
 	#insert performa
-	performa_2.insert(cursor, db)
-	performa_3.insert(cursor, db)
-	performa_6.insert(cursor, db)
-	performa_11.insert(cursor, db)
+	# performa_2.insert(cursor, db)
+	# performa_3.insert(cursor, db)
+	# performa_6.insert(cursor, db)
+	# performa_11.insert(cursor, db)
 		
 #disconnect from server
 db.close()
 
-workbook.close()
+# workbook.close()

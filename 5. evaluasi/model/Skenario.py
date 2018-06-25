@@ -14,7 +14,8 @@ class Skenario:
 		sql += self.getQueryCase(3)
 		sql += self.getQueryCase(6)
 		sql += self.getQueryCase(11)
-		sql += " FROM `score_system` s, `answer` a WHERE s.ID_ANSWER = a.ID_ANSWER AND s.ID_SCENARIO = %d" %(self.id_skenario)
+		# sql += " FROM `score_system` s, `answer` a WHERE s.ID_ANSWER = a.ID_ANSWER AND s.ID_SCENARIO = %d" %(self.id_skenario)
+		sql += " FROM `score_system` s, `answer` a WHERE s.ID_ANSWER = a.ID_ANSWER AND s.ID_SCENARIO = %d AND a.SAMPLE = 1" %(self.id_skenario)
 		
 		return sql
 	

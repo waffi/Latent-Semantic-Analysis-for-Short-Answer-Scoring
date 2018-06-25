@@ -22,7 +22,7 @@ total_document = cursor.fetchone()[0]
 tw.setTotalDocument(total_document)
 print 'total_document: ' + str(total_document)
 
-#get count documents each terms [countDocumentEachTerm(sourceID)]
+#get count documents each terms [getCountDocumentEachTerm(sourceID)]
 sql = "SELECT term, COUNT(*) FROM term_document_matrix m, document d WHERE m.ID_DOCUMENT = d.ID_DOCUMENT AND d.ID_SOURCE = %d GROUP BY m.TERM" %(source)
 cursor.execute(sql)
 term_list = cursor.fetchall()
