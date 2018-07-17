@@ -35,15 +35,15 @@ tdm = TermDocumentMatrix(term_document_matrix, documemt_list)
 
 #create document list containing term
 tdm.createTermDictionary()
-print tdm.term_dictionary['address'][0].term
+# print tdm.term_dictionary['address'][0].term
 		
 #create term list
 tdm.createTermList()
-print tdm.term_list
+# print tdm.term_list
 
 #create document list
 tdm.createDocumentList()
-print tdm.documemt_list
+# print tdm.documemt_list
 
 #create matrix
 tdm.createMatrix()	
@@ -61,6 +61,30 @@ svd_midf = SingularValueDecomposition()
 svd_tf_idf.generateSVD(matrix['tf_idf'])
 svd_widf.generateSVD(matrix['widf'])
 svd_midf.generateSVD(matrix['midf'])
+
+print "svd tf_idf"
+print "\nmatrix U\n"
+print svd_tf_idf.U
+print "\nmatrix S\n"
+print svd_tf_idf.S
+print "\nmatrix Vt\n"
+print svd_tf_idf.Vt
+
+print "svd widf"
+print "\nmatrix U\n"
+print svd_widf.U
+print "\nmatrix S\n"
+print svd_widf.S
+print "\nmatrix Vt\n"
+print svd_widf.Vt
+
+print "svd widf"
+print "\nmatrix U\n"
+print svd_midf.U
+print "\nmatrix S\n"
+print svd_midf.S
+print "\nmatrix Vt\n"
+print svd_midf.Vt
 
 save('result/'+str(source)+'.svd.tf_idf.u.npy',svd_tf_idf.U)
 save('result/'+str(source)+'.svd.tf_idf.s.npy',svd_tf_idf.S)

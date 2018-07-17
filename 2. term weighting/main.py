@@ -55,8 +55,11 @@ for row in term_document_matrix:
 	td.widf = tw.get_widf(td.term, td.tf)
 	td.midf = tw.get_midf(td.term, td.tf)
 	
-	print str(td.id_document) + " - " + str(td.id_term)
-	print td.term + " : " + str(td.tf_idf) + "-" + str(td.widf) + "-" + str(td.midf)
+	print "id_document : " + str(td.id_document) + " id_term : " + str(td.id_term)
+	print "   term   :" + td.term 
+	print "   tf_idf : " + str(td.tf_idf)
+	print "   widf   : " + str(td.widf)
+	print "   midf   : " + str(td.midf) + "\n"
 	
 	sql = "UPDATE `term_document_matrix` SET `IDF`=%f, `TF_IDF`=%f, `WIDF`=%f, `MIDF`=%f WHERE ID_TERM = %d" %(td.idf, td.tf_idf, td.widf, td.midf, td.id_term)
 	cursor.execute(sql)

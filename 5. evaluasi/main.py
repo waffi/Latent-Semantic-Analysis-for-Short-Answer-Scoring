@@ -45,6 +45,8 @@ for i in range(?, ?):
 
 	workbook = Workbook('skenario/skenario_' + str(id_skenario) + '.xlsx')
 	worksheet = workbook.add_worksheet()
+	print "\nid_scenario : " + str(i)
+	
 
 	sql = skenario.getQuery()
 	cursor.execute(sql)
@@ -113,6 +115,10 @@ for i in range(?, ?):
 	performa_11.countPerforma()
 		
 	#insert mae
+	print "\n   mae"
+	print "   tf_idf : " + str(mae_tf_idf)
+	print "   widf   : " + str(mae_widf)
+	print "   midf   : " + str(mae_midf)
 	sql = "INSERT INTO `mae`(`ID_SCENARIO`, `TF_IDF`, `WIDF`, `MIDF`) VALUES (%d,%f,%f,%f)" %(id_skenario, mae_tf_idf, mae_widf, mae_midf)
 	cursor.execute(sql)
 	db.commit()
@@ -125,6 +131,10 @@ for i in range(?, ?):
 		korelasi_midf = 0
 	
 	#insert pearson
+	print "\n   korelasi"
+	print "   tf_idf : " + str(korelasi_tf_idf)
+	print "   widf   : " + str(korelasi_widf)
+	print "   midf   : " + str(korelasi_midf)
 	sql = "INSERT INTO `pearson`(`ID_SCENARIO`, `TF_IDF`, `WIDF`, `MIDF`) VALUES (%d,%f,%f,%f)" %(id_skenario, korelasi_tf_idf, korelasi_widf, korelasi_midf)
 	cursor.execute(sql)
 	db.commit()

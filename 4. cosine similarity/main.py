@@ -14,7 +14,7 @@ sql = "SELECT MAX(ID_ANSWER), ID_QUESTION FROM `answer` GROUP BY ID_QUESTION"
 cursor.execute(sql)
 answer_boudary = cursor.fetchall()
 
-print answer_boudary
+# print answer_boudary
 
 #1 = question, 2 = answer key, 3 = answer, 4 = testing, 5 = corpus
 source = ?
@@ -24,9 +24,9 @@ source_path = 'source/' + str(source) + '/'
 term_list = load(source_path + 'term_list.npy')
 matrix_answer = load(source_path + 'matrix.answer.npy')
 matrix_answer_key = load(source_path + 'matrix.answer_key.npy')
-print term_list.shape
-print matrix_answer.shape
-print matrix_answer_key.shape
+# print term_list.shape
+# print matrix_answer.shape
+# print matrix_answer_key.shape
 
 #get svd
 
@@ -60,12 +60,21 @@ for i in range(?, ?):
 		
 		#score = cosine_similarity(v1.transpose(), v2.transpose()) * 5
 		
-		score_tf_idf = cosine_similarity(svd_tf_idf.createQuery(v1), svd_tf_idf.createQuery(v2)) * 5
-		score_widf = cosine_similarity(svd_widf.createQuery(v1), svd_widf.createQuery(v2)) * 5
-		score_midf = cosine_similarity(svd_midf.createQuery(v1), svd_midf.createQuery(v2)) * 5
+		score_tf_idf = cosine_similarity(svd_tf_idf.createQuery(v1), svd_tf_idf.createQuery(v2))[0][0] * 5
+		score_widf = cosine_similarity(svd_widf.createQuery(v1), svd_widf.createQuery(v2))[0][0] * 5
+		score_midf = cosine_similarity(svd_midf.createQuery(v1), svd_midf.createQuery(v2))[0][0] * 5
 		
-		print str(id_answer) + "-" + str(id_question)
-		print str(score_tf_idf) + " | " + str(score_widf) + " | " + str(score_midf)
+		if score_tf_idf < 0:
+			score_tf_idf = 0
+		if score_widf < 0:
+			score_widf = 0
+		if score_midf < 0:
+			score_midf = 0
+			
+		print "id_question : " + str(id_question) + " id_answer : " + str(id_answer)
+		print "   tf_idf : " + str(score_tf_idf) 
+		print "   widf   : " + str(score_widf)
+		print "   midf   : " + str(score_midf)
 		
 		sql = "INSERT INTO `score_system`(`ID_SCENARIO`, `ID_ANSWER`, `SCORE_TF_IDF`, `SCORE_WIDF`, `SCORE_MIDF`) VALUES (%d,%d,%f,%f,%f)" %(id_skenario, id_answer, score_tf_idf, score_widf, score_midf)
 		cursor.execute(sql)
