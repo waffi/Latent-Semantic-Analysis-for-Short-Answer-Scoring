@@ -56,29 +56,34 @@ for i in range(2, 83459):
 	term_stemmed = worksheet['E'+str(i)].value
 	ref_stemmed  = worksheet['F'+str(i)].value
 	
-	if term_stemmed in term_list:
-		m1[term_list.index(worksheet['E'+str(i)].value),0]=1
-	if ref_stemmed in term_list:
-		m2[term_list.index(worksheet['F'+str(i)].value),0]=1
-
-	v1 = m1[:,0:1]	
-	v2 = m2[:,0:1]
-	
 	print term + " - " + ref
 	
-	#score = cosine_similarity(v1.transpose(), v2.transpose()) * 5
-
-	score_tf_idf = cosine_similarity(svd_tf_idf.createQuery(v1), svd_tf_idf.createQuery(v2))[0][0]
-	score_widf = cosine_similarity(svd_widf.createQuery(v1), svd_widf.createQuery(v2))[0][0]
-	score_midf = cosine_similarity(svd_midf.createQuery(v1), svd_midf.createQuery(v2))[0][0]
-		
-	worksheet['G'+str(i)] = score_tf_idf
-	worksheet['H'+str(i)] = score_widf
-	worksheet['I'+str(i)] = score_midf
+	score_tf_idf = 0
+	score_widf = 0
+	score_midf = 0
+			
+	if term_stemmed in term_list:
+		m1[term_list.index(worksheet['E'+str(i)].value),0]=1
 	
+		if ref_stemmed in term_list:
+			m2[term_list.index(worksheet['F'+str(i)].value),0]=1
+
+			v1 = m1[:,0:1]	
+			v2 = m2[:,0:1]
+			
+			#score = cosine_similarity(v1.transpose(), v2.transpose()) * 5
+
+			score_tf_idf = cosine_similarity(svd_tf_idf.createQuery(v1), svd_tf_idf.createQuery(v2))[0][0]
+			score_widf = cosine_similarity(svd_widf.createQuery(v1), svd_widf.createQuery(v2))[0][0]
+			score_midf = cosine_similarity(svd_midf.createQuery(v1), svd_midf.createQuery(v2))[0][0]
+				
+			worksheet['G'+str(i)] = score_tf_idf
+			worksheet['H'+str(i)] = score_widf
+			worksheet['I'+str(i)] = score_midf
+					
 	print "   tf_idf : " + str(score_tf_idf) 
 	print "   widf   : " + str(score_widf)
-	print "   midf   : " + str(score_midf)		
+	print "   midf   : " + str(score_midf)	
 	
 workbook.save('result.xlsx')
  
