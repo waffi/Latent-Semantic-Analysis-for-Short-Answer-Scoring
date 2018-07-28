@@ -46,15 +46,15 @@ svd_midf.setReductionSVD(k_dimension)
 workbook = load_workbook("fallow_stemmed.xlsx")
 worksheet = workbook.active
 
-for i in range(2, 83459):
+for i in range(2, 2650):
 	
 	m1 = zeros([len(term_list), 1])	
 	m2 = zeros([len(term_list), 1])	
 	
 	term = worksheet['B'+str(i)].value
 	ref  = worksheet['C'+str(i)].value
-	term_stemmed = worksheet['E'+str(i)].value
-	ref_stemmed  = worksheet['F'+str(i)].value
+	term_stemmed = worksheet['D'+str(i)].value
+	ref_stemmed  = worksheet['E'+str(i)].value
 	
 	print term + " - " + ref
 	
@@ -63,10 +63,10 @@ for i in range(2, 83459):
 	score_midf = 0
 			
 	if term_stemmed in term_list:
-		m1[term_list.index(worksheet['E'+str(i)].value),0]=1
+		m1[term_list.index(worksheet['D'+str(i)].value),0]=1
 	
 		if ref_stemmed in term_list:
-			m2[term_list.index(worksheet['F'+str(i)].value),0]=1
+			m2[term_list.index(worksheet['E'+str(i)].value),0]=1
 
 			v1 = m1[:,0:1]	
 			v2 = m2[:,0:1]
@@ -77,13 +77,13 @@ for i in range(2, 83459):
 			score_widf = cosine_similarity(svd_widf.createQuery(v1), svd_widf.createQuery(v2))[0][0]
 			score_midf = cosine_similarity(svd_midf.createQuery(v1), svd_midf.createQuery(v2))[0][0]
 				
-			worksheet['G'+str(i)] = score_tf_idf
-			worksheet['H'+str(i)] = score_widf
-			worksheet['I'+str(i)] = score_midf
+			worksheet['F'+str(i)] = score_tf_idf
+			worksheet['G'+str(i)] = score_widf
+			worksheet['H'+str(i)] = score_midf
 					
 	print "   tf_idf : " + str(score_tf_idf) 
 	print "   widf   : " + str(score_widf)
 	print "   midf   : " + str(score_midf)	
 	
-workbook.save('result.xlsx')
+workbook.save('resultx.xlsx')
  
