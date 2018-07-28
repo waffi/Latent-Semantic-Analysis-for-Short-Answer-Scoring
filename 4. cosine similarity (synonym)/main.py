@@ -16,14 +16,14 @@ term_list = load(source_path + 'term_list.npy')
 term_list = term_list.tolist()
 
 # prepare list synonym
-# workbook = load_workbook("fallow.xlsx")
+# workbook = load_workbook("synonym.xlsx")
 # worksheet = workbook.active
 
-# for i in range(2, 83459):
-	# worksheet['E'+str(i)] = str(preprocessing(worksheet['B'+str(i)].value))
-	# worksheet['F'+str(i)] = str(preprocessing(worksheet['C'+str(i)].value))
+# for i in range(2, 42):
+	# worksheet['C'+str(i)] = str(preprocessing(worksheet['A'+str(i)].value))
+	# worksheet['D'+str(i)] = str(preprocessing(worksheet['B'+str(i)].value))
 
-# workbook.save('fallow_stemmedx.xlsx')
+# workbook.save('wynonym_stemmedx.xlsx')
 
 #get svd
 
@@ -43,18 +43,18 @@ svd_tf_idf.setReductionSVD(k_dimension)
 svd_widf.setReductionSVD(k_dimension)
 svd_midf.setReductionSVD(k_dimension)
 
-workbook = load_workbook("fallow_stemmed.xlsx")
+workbook = load_workbook("synonym_stemmed.xlsx")
 worksheet = workbook.active
 
-for i in range(2, 2157):
+for i in range(2, 42):
 	
 	m1 = zeros([len(term_list), 1])	
 	m2 = zeros([len(term_list), 1])	
 	
-	term = worksheet['B'+str(i)].value
-	ref  = worksheet['C'+str(i)].value
-	term_stemmed = worksheet['D'+str(i)].value
-	ref_stemmed  = worksheet['E'+str(i)].value
+	term = worksheet['A'+str(i)].value
+	ref  = worksheet['B'+str(i)].value
+	term_stemmed = worksheet['C'+str(i)].value
+	ref_stemmed  = worksheet['D'+str(i)].value
 	
 	print term + " - " + ref
 	
@@ -63,10 +63,10 @@ for i in range(2, 2157):
 	score_midf = 0
 			
 	if term_stemmed in term_list:
-		m1[term_list.index(worksheet['D'+str(i)].value),0]=1
+		m1[term_list.index(term_stemmed),0]=1
 	
 		if ref_stemmed in term_list:
-			m2[term_list.index(worksheet['E'+str(i)].value),0]=1
+			m2[term_list.index(ref_stemmed),0]=1
 
 			v1 = m1[:,0:1]	
 			v2 = m2[:,0:1]
@@ -77,9 +77,9 @@ for i in range(2, 2157):
 			score_widf = cosine_similarity(svd_widf.createQuery(v1), svd_widf.createQuery(v2))[0][0]
 			score_midf = cosine_similarity(svd_midf.createQuery(v1), svd_midf.createQuery(v2))[0][0]
 				
-			worksheet['F'+str(i)] = score_tf_idf
-			worksheet['G'+str(i)] = score_widf
-			worksheet['H'+str(i)] = score_midf
+			worksheet['E'+str(i)] = score_tf_idf
+			worksheet['F'+str(i)] = score_widf
+			worksheet['G'+str(i)] = score_midf
 					
 	print "   tf_idf : " + str(score_tf_idf) 
 	print "   widf   : " + str(score_widf)
