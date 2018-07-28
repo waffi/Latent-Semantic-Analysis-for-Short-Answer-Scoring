@@ -46,7 +46,7 @@ svd_midf.setReductionSVD(k_dimension)
 workbook = load_workbook("fallow_stemmed.xlsx")
 worksheet = workbook.active
 
-for i in range(2, 2650):
+for i in range(2, 2157):
 	
 	m1 = zeros([len(term_list), 1])	
 	m2 = zeros([len(term_list), 1])	
