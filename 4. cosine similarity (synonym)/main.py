@@ -2,6 +2,8 @@
 
 from numpy import load
 from numpy import zeros
+from openpyxl import load_workbook
+from preprocessing import preprocessing
 from sklearn.metrics.pairwise import cosine_similarity
 from model.SingularValueDecomposition import SingularValueDecomposition
 
@@ -9,9 +11,19 @@ from model.SingularValueDecomposition import SingularValueDecomposition
 source = 5
 source_path = 'source/' + str(source) + '/'
 
-#get svd
+#load file
 term_list = load(source_path + 'term_list.npy')
 term_list = term_list.tolist()
+
+# prepare list synonym
+# workbook = load_workbook("fallow.xlsx")
+# worksheet = workbook.active
+
+# for i in range(2, 83459):
+	# worksheet['E'+str(i)] = str(preprocessing(worksheet['B'+str(i)].value))
+	# worksheet['F'+str(i)] = str(preprocessing(worksheet['C'+str(i)].value))
+
+# workbook.save('fallow_stemmedx.xlsx')
 
 #get svd
 
@@ -30,40 +42,29 @@ k_dimension = 285
 svd_tf_idf.setReductionSVD(k_dimension)
 svd_widf.setReductionSVD(k_dimension)
 svd_midf.setReductionSVD(k_dimension)
+
+workbook = load_workbook("fallow_stemmed.xlsx")
+worksheet = workbook.active
+
+for i in range(2, 83459):
 	
-m1 = zeros([len(term_list), 7])	
-m2 = zeros([len(term_list), 7])	
-
-m1[term_list.index("softwar"),0]=1
-m2[term_list.index("program"),0]=1
-
-m1[term_list.index("program"),1]=1
-m2[term_list.index("applic"),1]=1
-
-m1[term_list.index("applic"),2]=1
-m2[term_list.index("softwar"),2]=1
-
-m1[term_list.index("enhanc"),3]=1
-m2[term_list.index("improv"),3]=1
-
-m1[term_list.index("product"),4]=1
-m2[term_list.index("construct"),4]=1
-
-m1[term_list.index("function"),5]=1
-m2[term_list.index("method"),5]=1
-
-m1[term_list.index("chang"),6]=1
-m2[term_list.index("manipul"),6]=1
-
-for i in range(1, 8):
+	m1 = zeros([len(term_list), 1])	
+	m2 = zeros([len(term_list), 1])	
 	
-	v1 = m1[:,i-1:i]	
-	v2 = m2[:,i-1:i]
+	term = worksheet['B'+str(i)].value
+	ref  = worksheet['C'+str(i)].value
+	term_stemmed = worksheet['E'+str(i)].value
+	ref_stemmed  = worksheet['F'+str(i)].value
 	
-	index1 = v1.transpose()[0,:].tolist().index(1)
-	index2 = v2.transpose()[0,:].tolist().index(1)
+	if term_stemmed in term_list:
+		m1[term_list.index(worksheet['E'+str(i)].value),0]=1
+	if ref_stemmed in term_list:
+		m2[term_list.index(worksheet['F'+str(i)].value),0]=1
+
+	v1 = m1[:,0:1]	
+	v2 = m2[:,0:1]
 	
-	print term_list[index1] + " - " + term_list[index2]
+	print term + " - " + ref
 	
 	#score = cosine_similarity(v1.transpose(), v2.transpose()) * 5
 
@@ -71,7 +72,13 @@ for i in range(1, 8):
 	score_widf = cosine_similarity(svd_widf.createQuery(v1), svd_widf.createQuery(v2))[0][0]
 	score_midf = cosine_similarity(svd_midf.createQuery(v1), svd_midf.createQuery(v2))[0][0]
 		
+	worksheet['G'+str(i)] = score_tf_idf
+	worksheet['H'+str(i)] = score_widf
+	worksheet['I'+str(i)] = score_midf
+	
 	print "   tf_idf : " + str(score_tf_idf) 
 	print "   widf   : " + str(score_widf)
 	print "   midf   : " + str(score_midf)		
+	
+workbook.save('result.xlsx')
  

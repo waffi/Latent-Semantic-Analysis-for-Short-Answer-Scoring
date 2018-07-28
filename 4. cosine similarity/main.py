@@ -20,7 +20,7 @@ answer_boudary = cursor.fetchall()
 source = ?
 source_path = 'source/' + str(source) + '/'
 
-#get svd
+#load file
 term_list = load(source_path + 'term_list.npy')
 matrix_answer = load(source_path + 'matrix.answer.npy')
 matrix_answer_key = load(source_path + 'matrix.answer_key.npy')
