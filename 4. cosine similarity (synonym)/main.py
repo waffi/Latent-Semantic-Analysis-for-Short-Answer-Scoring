@@ -16,7 +16,7 @@ term_list = load(source_path + 'term_list.npy')
 term_list = term_list.tolist()
 
 # prepare list synonym
-workbook = load_workbook("synonym.xlsx")
+workbook = load_workbook("synonym sample.xlsx")
 worksheet = workbook.active
 
 for i in range(2, 42):
