@@ -16,14 +16,14 @@ term_list = load(source_path + 'term_list.npy')
 term_list = term_list.tolist()
 
 # prepare list synonym
-# workbook = load_workbook("synonym.xlsx")
-# worksheet = workbook.active
+workbook = load_workbook("synonym.xlsx")
+worksheet = workbook.active
 
-# for i in range(2, 42):
-	# worksheet['C'+str(i)] = str(preprocessing(worksheet['A'+str(i)].value))
-	# worksheet['D'+str(i)] = str(preprocessing(worksheet['B'+str(i)].value))
+for i in range(2, 42):
+	worksheet['C'+str(i)] = str(preprocessing(worksheet['A'+str(i)].value))
+	worksheet['D'+str(i)] = str(preprocessing(worksheet['B'+str(i)].value))
 
-# workbook.save('wynonym_stemmedx.xlsx')
+workbook.save('synonym_stemmed.xlsx')
 
 #get svd
 
@@ -71,7 +71,7 @@ for i in range(2, 42):
 			v1 = m1[:,0:1]	
 			v2 = m2[:,0:1]
 			
-			#score = cosine_similarity(v1.transpose(), v2.transpose()) * 5
+			score = cosine_similarity(v1.transpose(), v2.transpose())[0][0]
 
 			score_tf_idf = cosine_similarity(svd_tf_idf.createQuery(v1), svd_tf_idf.createQuery(v2))[0][0]
 			score_widf = cosine_similarity(svd_widf.createQuery(v1), svd_widf.createQuery(v2))[0][0]
@@ -81,9 +81,10 @@ for i in range(2, 42):
 			worksheet['F'+str(i)] = score_widf
 			worksheet['G'+str(i)] = score_midf
 					
+	print "   cosine : " + str(score) 
 	print "   tf_idf : " + str(score_tf_idf) 
 	print "   widf   : " + str(score_widf)
 	print "   midf   : " + str(score_midf)	
 	
-workbook.save('resultx.xlsx')
+workbook.save('result.xlsx')
  
