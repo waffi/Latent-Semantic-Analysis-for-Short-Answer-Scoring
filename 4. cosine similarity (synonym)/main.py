@@ -20,8 +20,8 @@ workbook = load_workbook("synonym sample.xlsx")
 worksheet = workbook.active
 
 for i in range(2, 42):
-	worksheet['C'+str(i)] = str(preprocessing(worksheet['A'+str(i)].value))
-	worksheet['D'+str(i)] = str(preprocessing(worksheet['B'+str(i)].value))
+	worksheet['C'+str(i)] = str(preprocessing(worksheet['A'+str(i)].value)[0])
+	worksheet['D'+str(i)] = str(preprocessing(worksheet['B'+str(i)].value)[0])
 
 workbook.save('synonym_stemmed.xlsx')
 
@@ -58,6 +58,7 @@ for i in range(2, 42):
 	
 	print term + " - " + ref
 	
+	score = 0
 	score_tf_idf = 0
 	score_widf = 0
 	score_midf = 0
