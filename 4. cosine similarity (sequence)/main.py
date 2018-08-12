@@ -18,7 +18,7 @@ term_list = term_list.tolist()
 workbook = load_workbook("sequence.xlsx")
 worksheet = workbook.active
 
-for i in range(2, 7):
+for i in range(?, ?):
 
 	text1 = worksheet['A'+str(i)].value
 	text2 = worksheet['B'+str(i)].value

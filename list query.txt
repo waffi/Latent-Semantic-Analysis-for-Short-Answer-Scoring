@@ -57,4 +57,7 @@ FROM `performa` WHERE `ROUNDING_TYPE`= 2 AND `ID_SCENARIO`>100
 GROUP BY `ID_SCENARIO`, `AVERAGE_TYPE` ORDER BY `AVERAGE_TYPE`
 
 //import
-mysql -u root -p db_asas_backup < "C:\Users\Waffi Fatur Rahman\Dropbox\TA WAFFI\model\db_asas_v3 (data).sql"
+mysql -u root -p db_asas_demo < "C:\Users\Waffi Fatur Rahman\Dropbox\TA WAFFI\model\db_asas.sql"
+
+SELECT (FLOOR((`ID_PERFORMA`-1)/6)*3 + ((`ID_PERFORMA`-1)%3+1)) As `ID_PERFORMA` ,`ID_SCENARIO`,`ROUNDING_TYPE`,`TERM_WEIGHTING`,`PRECISION`,`RECALL`,`F_MEASURE`,`ACCURACY` FROM `performa` WHERE `AVERAGE_TYPE` = 'macro'  
+ORDER BY `performa`.`ID_SCENARIO` ASC
